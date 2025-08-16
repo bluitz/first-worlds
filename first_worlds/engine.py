@@ -11,7 +11,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Optional
 
-from panda3d.core import Vec3, Filename, NodePath, AmbientLight, DirectionalLight
+from panda3d.core import Vec3, Filename, NodePath, AmbientLight, DirectionalLight, Vec4
 from direct.showbase.ShowBase import ShowBase
 import simplepbr
 
@@ -25,7 +25,7 @@ except Exception:
 @dataclass
 class EngineConfig:
     window_title: str = "FirstWorlds (Python)"
-    background_color: tuple[float, float, float] = (0.05, 0.05, 0.07)
+    background_color: tuple[float, float, float, float] = (0.05, 0.05, 0.07, 1.0)
 
 
 class Engine(ShowBase):
@@ -33,10 +33,10 @@ class Engine(ShowBase):
         self._config = config or EngineConfig()
         ShowBase.__init__(self)
         self.disableMouse()  # we set a simple orbit camera manually
-        self.win.set_clear_color(self._config.background_color)
+        self.win.set_clear_color(Vec4(*self._config.background_color))
 
         # Initialize simple PBR pipeline
-        simplepbr.init(base=self, use_normal_maps=False)
+        simplepbr.init(use_normal_maps=False)
 
         # Setup camera and basic lights
         self.cam.set_pos(6, -10, 6)
@@ -91,12 +91,11 @@ class Engine(ShowBase):
         cam.look_at(pivot)
 
     def add_unit_cube(self, name: str = "cube") -> NodePath:
-        from panda3d.core import GeomNode, GeomVertexData, GeomVertexFormat, GeomVertexWriter, GeomTristrips, Geom, GeomVertexReader
-        # For simplicity, use built-in model
+        # Use built-in model shipped with Panda3D
         cube = self.loader.loadModel("models/box")
-        np = cube.reparent_to(self.render)
-        np.set_name(name)
-        return np
+        cube.reparent_to(self.render)
+        cube.set_name(name)
+        return cube
 
     def load_model(self, path: str, name: Optional[str] = None) -> Optional[NodePath]:
         if HAVE_GLTF and path.lower().endswith((".gltf", ".glb")):
@@ -108,7 +107,7 @@ class Engine(ShowBase):
                 node = None
         if node is None:
             return None
-        np = node.reparent_to(self.render)
+        node.reparent_to(self.render)
         if name:
-            np.set_name(name)
-        return np
+            node.set_name(name)
+        return node
