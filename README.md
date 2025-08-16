@@ -1,5 +1,12 @@
 # FirstWorlds — Your first step into world modeling (three.js + generative textures)
 
+<p align="center">
+  <img src="logo.png" alt="FirstWorlds logo — Your first step into world modeling" width="220" />
+  <br/>
+  <em>Built for showcasing world modeling skills</em>
+  
+</p>
+
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen)](TODO_DEMO_URL)
 [![Video Walkthrough](https://img.shields.io/badge/video-5%20min-blue)](TODO_VIDEO_URL)
 [![Repo](https://img.shields.io/badge/code-GitHub-black)](TODO_REPO_URL)
@@ -8,11 +15,12 @@
 Import GLTF/GLB, place and transform objects, and apply procedural + AI-generated textures via a command bar (e.g., _“make the floor wet cobblestone at night”_).  
 Exports to **GLB + JSON recipe** so scenes are reproducible.
 
-https://user-images.githubusercontent.com/TODO/short-gif.mp4  <!-- TODO: 10–20s screen capture GIF -->
+https://user-images.githubusercontent.com/TODO/short-gif.mp4 <!-- TODO: 10–20s screen capture GIF -->
 
 ---
 
 ## ✨ Highlights (what a recruiter should notice)
+
 - **Beginner-friendly:** built as an accessible introduction to 3D world modeling.
 - **Production-quality 3D UX:** smooth orbit controls, gizmos, undo/redo, autosave.
 - **Materials mastery:** PBR pipeline with roughness/metalness/normal maps, env lighting, PMREM.
@@ -24,12 +32,14 @@ https://user-images.githubusercontent.com/TODO/short-gif.mp4  <!-- TODO: 10–20
 ---
 
 ## 🧩 Demo
+
 - **Live:** TODO_DEMO_URL
 - **Video (5 min):** TODO_VIDEO_URL (walkthrough of import → edit → AI texture → export → re-import)
 
 ---
 
 ## 📦 Tech Stack
+
 - **React + Vite**, **react-three-fiber** + **drei**, **three** (r15x)
 - **State:** zustand (undo/redo history), jotai (transient UI)
 - **Assets:** GLTFLoader + DRACO, KTX2 compressed textures, PMREM & HDRIs
@@ -94,30 +104,33 @@ pnpm build && pnpm preview
 ## 🧠 Key Concepts
 
 ### 1) AI-Assisted Texturing
+
 - Command: `make <selection> look like <descriptor>` → hits `/gen-texture` → returns **albedo**, optional **normal**/**roughness**/**metalness**.
-- **Preview mode:** non-destructive layer (toggle on/off).  
-- **Commit:** bake maps into material + autosave.  
+- **Preview mode:** non-destructive layer (toggle on/off).
+- **Commit:** bake maps into material + autosave.
 - **Revert:** one click via history stack.
 
 ### 2) Export / Import
-- **Export**: `scene.glb` + `scene.recipe.json` (materials, map sources, generator params).  
+
+- **Export**: `scene.glb` + `scene.recipe.json` (materials, map sources, generator params).
 - **Import**: loads GLB + reapplies recipe (so results are reproducible).
 
 ### 3) Performance
-- **Instancing** for repeated props (trees, lights).  
-- **KTX2** textures, **DRACO** meshes, PMREM’d HDRIs.  
-- **BVH raycasting** for fast picking.  
+
+- **Instancing** for repeated props (trees, lights).
+- **KTX2** textures, **DRACO** meshes, PMREM’d HDRIs.
+- **BVH raycasting** for fast picking.
 - **Frame budget** target: 60fps on M1 Air @ 1080p for demo scenes.
 
 ---
 
 ## 🧪 Evals
 
-| Scenario                       | Triangles | FPS (M1 Air) | Notes                      |
-|--------------------------------|-----------|--------------|----------------------------|
-| Single room, 25 props          | ~500k     | 60           | Baseline                   |
-| 200 instanced props            | ~3.2M     | 55–60        | Instancing on              |
-| Uncompressed vs KTX2 textures  | n/a       | +8–15 fps    | Saves memory + bandwidth   |
+| Scenario                      | Triangles | FPS (M1 Air) | Notes                    |
+| ----------------------------- | --------- | ------------ | ------------------------ |
+| Single room, 25 props         | ~500k     | 60           | Baseline                 |
+| 200 instanced props           | ~3.2M     | 55–60        | Instancing on            |
+| Uncompressed vs KTX2 textures | n/a       | +8–15 fps    | Saves memory + bandwidth |
 
 > Reproduce via `pnpm run eval:perf` (spawns scripted camera flythroughs, logs FPS & memory).
 
@@ -163,6 +176,7 @@ vec3 triplanarSample(sampler2D tex, vec3 worldPos, vec3 normal, float scale) {
 ---
 
 ## 🔒 Notes on Generative Textures
+
 - Results are cached with `{prompt, seed, size}` for reproducibility.
 - Store only **paths** to generated maps; keep large binaries out of git (use LFS or CDN).
 - Attribution: include credits for any base HDRIs / texture sources.
@@ -170,6 +184,7 @@ vec3 triplanarSample(sampler2D tex, vec3 worldPos, vec3 normal, float scale) {
 ---
 
 ## 🗺️ Roadmap
+
 - [ ] **Layered materials** (stack multiple generated looks, blend sliders)
 - [ ] **Smart UV** helper (auto UV unwrap fallback for poor assets)
 - [ ] **Light baking** preview (EMISSIVE → fake bounce via AO trick)
@@ -180,9 +195,11 @@ vec3 triplanarSample(sampler2D tex, vec3 worldPos, vec3 normal, float scale) {
 ---
 
 ## 📜 License
+
 MIT for code. See `/ATTRIBUTIONS.md` for HDRI/texture licenses.
 
 ## 👤 Author
+
 Justin Munning — [Website](https://TODO) · [GitHub](https://github.com/TODO) · [LinkedIn](https://linkedin.com/in/TODO)
 
 ---
@@ -190,19 +207,18 @@ Justin Munning — [Website](https://TODO) · [GitHub](https://github.com/TODO) 
 # 📅 Feature Checklist (2-week plan)
 
 ## Week 1 — MVP (shipping > perfect)
+
 - [ ] R3F canvas, orbit controls, basic scene
 - [ ] Import GLB; add to **Outliner**; select & focus camera
 - [ ] **Inspector**: transform + PBR material parameters (albedo/roughness/metalness)
-- [ ] **Command Bar (⌘K)** with 3 commands:
-      - [ ] “Generate texture for selection”
-      - [ ] “Revert last material change”
-      - [ ] “Toggle bloom”
+- [ ] **Command Bar (⌘K)** with 3 commands: - [ ] “Generate texture for selection” - [ ] “Revert last material change” - [ ] “Toggle bloom”
 - [ ] **AI texture pipeline** stub: call your chosen provider; return albedo (+ optional normal/roughness)
 - [ ] **Preview/Commit** flow; autosave scene to localStorage
 - [ ] **Export** GLB + JSON recipe; **Import** to restore
 - [ ] 10–20s **screen capture GIF** and short README
 
 ## Week 2 — Product polish + performance
+
 - [ ] **KTX2** compressed textures; **DRACO** GLBs
 - [ ] **InstancedMesh** for repeated props
 - [ ] **BVH** raycasting for precise picking on heavy meshes
@@ -215,10 +231,11 @@ Justin Munning — [Website](https://TODO) · [GitHub](https://github.com/TODO) 
 ---
 
 # 🎥 Recruiter-facing Demo Script
-1. Import `room.glb`, orbit, and frame the hero object.  
-2. Select the **floor** → Command Bar: “make the floor wet cobblestone at night.”  
-3. Show preview vs commit; tweak roughness/normal strength.  
-4. Export GLB + JSON; refresh; re-import; confirm it matches.  
-5. Open `evals/results.md` → show FPS table.  
-6. Toggle bloom and your shader (e.g., triplanar) to show 3D chops.  
+
+1. Import `room.glb`, orbit, and frame the hero object.
+2. Select the **floor** → Command Bar: “make the floor wet cobblestone at night.”
+3. Show preview vs commit; tweak roughness/normal strength.
+4. Export GLB + JSON; refresh; re-import; confirm it matches.
+5. Open `evals/results.md` → show FPS table.
+6. Toggle bloom and your shader (e.g., triplanar) to show 3D chops.
 7. Close with 15s on code organization and why these choices scale.
